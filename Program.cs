@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Threading;
 
 namespace IIgneous
 {
@@ -13,9 +14,9 @@ namespace IIgneous
             if (args.Length != 1)
             {
                 Console.WriteLine("Compile .ii files into .exe");
+                System.Threading.Thread.Sleep(1000);
                 return;
             }
-
             try
             {
                 Scanner scanner = null;
@@ -25,10 +26,12 @@ namespace IIgneous
                 }
                 Parser parser = new Parser(scanner.Tokens);
                 CodeGen codeGen = new CodeGen(parser.Result, Path.GetFileNameWithoutExtension(args[0]) + ".exe");
+                System.Threading.Thread.Sleep(1000);
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.Message);
+                System.Threading.Thread.Sleep(1000);
             }
         }
     }

@@ -25,9 +25,14 @@ public sealed class Scanner
     public static readonly object Sub = new object();
     public static readonly object Mul = new object();
     public static readonly object Div = new object();
-    public static readonly object Semi = new object();
     public static readonly object Equal = new object();
 
+    #endregion
+    #region ArithmiticConstants
+
+    public static readonly object Semi = new object();
+    public static readonly object Par = new object();
+    public static readonly object Com = new object();
     #endregion
 
     private void Scan(IO.TextReader input)
