@@ -6,7 +6,10 @@ using System.IO;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 using System.Diagnostics;
+=======
+>>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
 =======
 >>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
 =======
@@ -27,7 +30,11 @@ namespace IIgneous
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 Thread.Sleep(1000);
+=======
+                System.Threading.Thread.Sleep(1000);
+>>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
 =======
                 System.Threading.Thread.Sleep(1000);
 >>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
@@ -51,7 +58,11 @@ namespace IIgneous
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 Thread.Sleep(1000);
+=======
+                System.Threading.Thread.Sleep(1000);
+>>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
 =======
                 System.Threading.Thread.Sleep(1000);
 >>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
@@ -68,7 +79,11 @@ namespace IIgneous
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 Thread.Sleep(1000);
+=======
+                System.Threading.Thread.Sleep(1000);
+>>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
 =======
                 System.Threading.Thread.Sleep(1000);
 >>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
