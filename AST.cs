@@ -38,9 +38,61 @@ public class ForLoop : Stmt
     public Expr To;
     public Stmt Body;
 }
+// for <ident> = <expr> to <expr> do <stmt> end
+public class Check : Stmt
+{
+    public Expr Expr;
+    public Stmt Body;
+}
+public class PadLeft : Stmt
+{
+    public Expr Expr;
+    public Expr Padding;
+}
+//pause <ident> = ( <expr> )
+public class Pause : Stmt
+{
+    public string Ident;
+    public Expr Expr;
+}
+public class Clear : Stmt
+{
+    public Expr Expr;
+}
+
+public class Pause : Stmt
+{
+    public string Ident;
+    public int time;
+    public Expr From;
+    public Expr To;
+    public Stmt Body;
+}
+
+public class Pause : Stmt
+{
+    public string Ident;
+    public int time;
+    public Expr From;
+    public Expr To;
+    public Stmt Body;
+}
+
+public class Pause : Stmt
+{
+    public string Ident;
+    public int time;
+    public Expr From;
+    public Expr To;
+    public Stmt Body;
+}
 
 // read_int <ident>
 public class ReadInt : Stmt
+{
+    public string Ident;
+}
+public class ReadString : Stmt
 {
     public string Ident;
 }
@@ -67,10 +119,21 @@ public class StringLiteral : Expr
     public string Value;
 }
 
+// <string> := " <string_elem>* "
+public class FloatLiteral : Expr
+{
+    public float Value;
+}
+
 // <int> := <digit>+
 public class IntLiteral : Expr
 {
     public int Value;
+}
+// <int> := <digit>+
+public class BoolLiteral : Expr
+{
+    public bool Value;
 }
 
 // <ident> := <char> <ident_rest>*

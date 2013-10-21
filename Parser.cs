@@ -24,7 +24,7 @@ public sealed class Parser
 
     private Stmt ParseStmt()
     {
-        Stmt result;
+        Stmt result = null;
 
         if (this.index == this.tokens.Count)
         {
@@ -41,8 +41,75 @@ public sealed class Parser
         {
             this.index++;
             Print print = new Print();
+
+            if (this.index == this.tokens.Count ||
+                this.tokens[this.index] != Scanner.ParL)
+            {
+                throw new System.Exception("print missing '('");
+            }
+
+            this.index++;
             print.Expr = this.ParseExpr();
+
+            if (this.index == this.tokens.Count ||
+                this.tokens[this.index] != Scanner.ParR)
+            {
+                throw new System.Exception("print missing ')'");
+            }
+
+            this.index++;
             result = print;
+        }
+        else if (this.tokens[this.index].Equals("pause"))
+        {
+            this.index++;
+            Pause pause = new Pause();
+            pause.Expr = this.ParseExpr();
+            result = pause;
+        }
+        else if (this.tokens[this.index].Equals("pLeft"))
+        {
+            this.index++;
+            PadLeft pLeft = new PadLeft();
+            pLeft.Expr = this.ParseExpr();
+            pLeft.Padding = this.ParseExpr();
+            result = pLeft;
+        }
+        else if (this.tokens[this.index].Equals("CLR"))
+        {
+            this.index++;
+            Clear clear = new Clear();
+            clear.Expr = this.ParseExpr();
+            result = clear;
+        }
+        else if (this.tokens[this.index].Equals("check"))
+        {
+            /*
+            this.index++;
+            Check check = new Check();
+
+            check.Expr = this.ParseExpr();
+
+            this.index++;
+
+            if (this.index == this.tokens.Count ||
+                !this.tokens[this.index].Equals("do"))
+            {
+                throw new System.Exception("expected 'do' after from expression in check");
+            }
+
+            this.index++;
+            check.Body = this.ParseStmt();
+            result = check;
+
+            if (this.index == this.tokens.Count ||
+                !this.tokens[this.index].Equals("end"))
+            {
+                throw new System.Exception("unterminated 'check' body");
+            }
+            */
+
+            this.index++;
         }
         else if (this.tokens[this.index].Equals("var"))
         {
@@ -76,6 +143,22 @@ public sealed class Parser
         {
             this.index++;
             ReadInt readInt = new ReadInt();
+
+            if (this.index < this.tokens.Count &&
+                this.tokens[this.index] is string)
+            {
+                readInt.Ident = (string)this.tokens[this.index++];
+                result = readInt;
+            }
+            else
+            {
+                throw new System.Exception("expected variable name after 'read_int'");
+            }
+        }
+        else if (this.tokens[this.index].Equals("read_string"))
+        {
+            this.index++;
+            ReadString readInt = new ReadString();
 
             if (this.index < this.tokens.Count &&
                 this.tokens[this.index] is string)
@@ -197,6 +280,20 @@ public sealed class Parser
             StringLiteral stringLiteral = new StringLiteral();
             stringLiteral.Value = value;
             return stringLiteral;
+        }
+        else if (this.tokens[this.index] is float)
+        {
+            float floatValue = (float)this.tokens[this.index++];
+            FloatLiteral floatLiteral = new FloatLiteral();
+            floatLiteral.Value = floatValue;
+            return floatLiteral;
+        }
+        else if (this.tokens[this.index] is bool)
+        {
+            bool boolValue = (bool)this.tokens[this.index++];
+            BoolLiteral boolLiteral = new BoolLiteral();
+            boolLiteral.Value = boolValue;
+            return boolLiteral;
         }
         else if (this.tokens[this.index] is int)
         {

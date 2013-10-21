@@ -74,12 +74,32 @@ public sealed class CodeGen
             this.GenExpr(((Print)stmt).Expr, typeof(string));
             this.il.Emit(Emit.OpCodes.Call, typeof(System.Console).GetMethod("WriteLine", new System.Type[] { typeof(string) }));
         }
-
+        else if (stmt is Pause)
+        {
+            // the "pause" statement is an alias for System.Threading.Thread.Sleep(0). 
+            // it uses the int case
+            this.GenExpr(((Pause)stmt).Expr, typeof(int));
+            this.il.Emit(Emit.OpCodes.Call, typeof(System.Threading.Thread).GetMethod("Sleep", new System.Type[] { typeof(int) }));
+        }
+        else if (stmt is Clear)
+        {
+            // the "CLR" statement is an alias for System.Threading.Thread.Sleep(0). 
+            // it uses the int case
+            //this.GenExpr(((Pause)stmt).Expr, typeof(int));
+            this.il.Emit(Emit.OpCodes.Call, typeof(System.Console).GetMethod("Clear", new System.Type[] { }));
+            //this.il.Emit(Emit.OpCodes.Call, typeof(System.Console).GetMethod("Clear", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static, null, new System.Type[] { }, null));
+        }
         else if (stmt is ReadInt)
         {
             this.il.Emit(Emit.OpCodes.Call, typeof(System.Console).GetMethod("ReadLine", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static, null, new System.Type[] { }, null));
             this.il.Emit(Emit.OpCodes.Call, typeof(int).GetMethod("Parse", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static, null, new System.Type[] { typeof(string) }, null));
             this.Store(((ReadInt)stmt).Ident, typeof(int));
+        }
+        else if (stmt is ReadString)
+        {
+            this.il.Emit(Emit.OpCodes.Call, typeof(System.Console).GetMethod("ReadLine", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static, null, new System.Type[] { }, null));
+            this.il.Emit(Emit.OpCodes.Call, typeof(string).GetMethod("Parse", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static, null, new System.Type[] { typeof(string) }, null));
+            this.Store(((ReadString)stmt).Ident, typeof(string));
         }
         else if (stmt is ForLoop)
         {
@@ -115,6 +135,32 @@ public sealed class CodeGen
             this.GenExpr(forLoop.To, typeof(int));
             this.il.Emit(Emit.OpCodes.Blt, body);
         }
+            
+        else if (stmt is Check)
+        {
+            // example: 
+            //check(true)
+            //   print "hello";
+            // end;
+
+            Check check = (Check)stmt;
+            Assign assign = new Assign();
+            this.GenStmt(assign);
+            // jump to the test
+            Emit.Label test = this.il.DefineLabel();
+            this.il.Emit(Emit.OpCodes.Br, test);
+
+            // statements in the body of the for loop
+            Emit.Label body = this.il.DefineLabel();
+            this.il.MarkLabel(body);
+            this.GenStmt(check.Body);
+
+            // **test** does x equal 100? (do the test)
+            this.il.MarkLabel(test);
+            this.GenExpr(check.Expr, typeof(bool));
+            this.il.Emit(Emit.OpCodes.Blt, body);
+        }
+        
         else
         {
             throw new System.Exception("don't know how to gen a " + stmt.GetType().Name);
@@ -162,6 +208,16 @@ public sealed class CodeGen
             deliveredType = typeof(int);
             this.il.Emit(Emit.OpCodes.Ldc_I4, ((IntLiteral)expr).Value);
         }
+        else if (expr is FloatLiteral)
+        {
+            deliveredType = typeof(float);
+            this.il.Emit(Emit.OpCodes.Ldc_R4, ((FloatLiteral)expr).Value);
+        }
+        else if (expr is BoolLiteral)
+        {
+            deliveredType = typeof(bool);
+            //this.il.Emit(Emit.OpCodes.Br,((BoolLiteral)expr).Value);
+        }
         else if (expr is Variable)
         {
             string ident = ((Variable)expr).Ident;
@@ -206,6 +262,14 @@ public sealed class CodeGen
         else if (expr is IntLiteral)
         {
             return typeof(int);
+        }
+        else if (expr is FloatLiteral)
+        {
+            return typeof(float);
+        }
+        else if (expr is BoolLiteral)
+        {
+            return typeof(bool);
         }
         else if (expr is Variable)
         {
