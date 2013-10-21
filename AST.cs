@@ -60,42 +60,6 @@ public class Clear : Stmt
     public Expr Expr;
 }
 
-public class Pause : Stmt
-{
-    public string Ident;
-    public int time;
-    public Expr From;
-    public Expr To;
-    public Stmt Body;
-}
-
-public class Pause : Stmt
-{
-    public string Ident;
-    public int time;
-    public Expr From;
-    public Expr To;
-    public Stmt Body;
-}
-
-public class Pause : Stmt
-{
-    public string Ident;
-    public int time;
-    public Expr From;
-    public Expr To;
-    public Stmt Body;
-}
-
-public class Pause : Stmt
-{
-    public string Ident;
-    public int time;
-    public Expr From;
-    public Expr To;
-    public Stmt Body;
-}
-
 // read_int <ident>
 public class ReadInt : Stmt
 {

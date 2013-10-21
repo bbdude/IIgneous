@@ -34,25 +34,17 @@ public sealed class Scanner
     public static readonly object Par = new object();
     public static readonly object Com = new object();
     #endregion
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
     #region SytaxConstants
 
     public static readonly object ParL = new object();
     public static readonly object ParR = new object();
-    public static readonly object Com = new object();
     public static readonly object CLR = new object();
     public static readonly object Check = new object();
     
     #endregion
-=======
->>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
-=======
->>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
-=======
->>>>>>> 33fc1f70a3dc2c697a1b3a5ce274f49c68371023
+
 
     private void Scan(IO.TextReader input)
     {
